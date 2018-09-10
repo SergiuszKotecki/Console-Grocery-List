@@ -1,0 +1,72 @@
+entity WeddingGuest {
+    firstName String,
+    lastName String,
+    phoneNumber String,
+
+}
+
+entity Accommodation {
+	rooms Integer,
+	reservationConfirmed Boolean,
+    reservationType ReservationType,
+}
+
+enum ReservationType {
+    PAID, FREE
+}
+
+
+entity Kids {
+	numberOfChildren Integer,
+    invitedChildren Integer,
+    invited Boolean,
+}
+
+entity Companion {
+	fullName String,
+}
+
+entity Address {
+	countryName String,
+    city String,
+    state String,
+    street String,
+    postalCode String,
+    houseNumber String,
+}
+
+entity TableD {
+	tableNumber Integer,
+    tableSit Integer,
+}
+
+entity Invitation {
+	whenSended Instant,
+    whenAccepted Instant,
+	sended Boolean,
+    invited Boolean,
+    dilvered Boolean,
+    accepted Boolean,
+}
+
+relationship OneToOne {
+	WeddingGuest{address} to Address
+    WeddingGuest{accommodation} to Accommodation
+    WeddingGuest{invitation} to Invitation
+    WeddingGuest{table} to TableD
+    WeddingGuest{companion} to Companion
+    WeddingGuest{kids} to Kids
+    Companion{table} to TableD
+}
+
+paginate WeddingGuest, Invitation with infinite-scroll
+paginate Table with pagination
+paginate Companion with pagination
+paginate Invitation with pagination
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+// Set an angular suffix
+angularSuffix * with wedding
